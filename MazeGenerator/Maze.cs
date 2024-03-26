@@ -27,7 +27,22 @@ namespace MazeGenerator
             Size = size;
             Start = Random.PointI(0, Width, 0, Height);
 
-            new Path(Start).CreateSubPaths();
+
+            var path = new Path(Start);
+            path.CreateSubPaths();
+
+            var subPaths = path.SubPaths;
+
+            while (Tiles.Count < Size.Product)
+            {
+                var copy = subPaths.ToArray();
+                subPaths.Clear();
+                foreach (var subPath in copy)
+                {
+                    subPath.CreateSubPaths();
+                    subPaths.AddRange(subPath.SubPaths);
+                }
+            }
         }
 
         public void Print()
@@ -45,7 +60,7 @@ namespace MazeGenerator
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    if (Tiles.Contains(new PointI(x, y))) 
+                    if (Tiles.Contains(new PointI(x, y)))
                     {
                         result += ' ';
                     }
