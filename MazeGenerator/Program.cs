@@ -6,7 +6,7 @@ namespace MazeGenerator
     {
         internal static void Main()
         {
-            _ = new Maze(new PointI(25, 25));
+            _ = new Maze(new PointI(32, 18));
         }
     }
 }

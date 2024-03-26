@@ -5,19 +5,21 @@ namespace MazeGenerator
 {
     public class Path
     {
-        private readonly List<PointI> _tiles;
-
         private int _index = 0;
+
+        public List<PointI> Tiles { get; }
 
         public List<Path> SubPaths { get; } = [];
 
+        public int Length => Tiles.Count;
+
         public Path(PointI start)
         {
-            _tiles = [start];
+            Tiles = [start];
 
-            while (CanMove(_tiles.Last(), out PointI next))
+            while (CanMove(Tiles.Last(), out PointI next))
             {
-                _tiles.Add(next);
+                Tiles.Add(next);
                 Maze.Instance!.Tiles.Add(next);
 
                 Maze.Instance!.Print();
@@ -64,9 +66,9 @@ namespace MazeGenerator
 
         public void CreateSubPaths()
         {
-            while ((Maze.Instance!.Tiles.Count < Maze.Instance!.Size.Product) && (_index < _tiles.Count))
+            while ((Maze.Instance!.Tiles.Count < Maze.Instance!.Size.Product) && (_index < Tiles.Count))
             {
-                SubPaths.Add(new Path(_tiles[_index++]));
+                SubPaths.Add(new Path(Tiles[_index++]));
             }
         }
     }

@@ -7,7 +7,7 @@ namespace MazeGenerator
     {
         public static Maze? Instance { get; private set; }
 
-        public List<PointI> Tiles { get; } = [];
+        public List<PointI> Tiles { get; }
 
         public PointI Size { get; }
 
@@ -24,11 +24,18 @@ namespace MazeGenerator
         {
             Instance = this;
 
-            Size = size;
+            Size = PointI.Clamp(size, 2, 100);
             Start = Random.PointI(0, Width, 0, Height);
 
+            Path? path;
+            do
+            {
+                Tiles = [];
+                path = new Path(Start);
+            } while (path.Length < Size.Length);
 
-            var path = new Path(Start);
+            End = path.Tiles.Last();
+
             path.CreateSubPaths();
 
             var subPaths = path.SubPaths;
@@ -60,9 +67,22 @@ namespace MazeGenerator
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    if (Tiles.Contains(new PointI(x, y)))
+                    var pos = new PointI(x, y);
+
+                    if (Tiles.Contains(pos))
                     {
-                        result += ' ';
+                        if (pos == Start)
+                        {
+                            result += 'O';
+                        }
+                        else if (pos == End)
+                        {
+                            result += 'X';
+                        }
+                        else
+                        {
+                            result += ' ';
+                        }
                     }
                     else
                     {
