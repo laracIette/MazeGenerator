@@ -19,8 +19,13 @@ namespace MazeGenerator
 
             while (CanMove(Tiles.Last(), out PointI next))
             {
+                var between = next - (next - Tiles.Last()) / 2;
+
                 Tiles.Add(next);
-                Maze.Instance!.Tiles.Add(next);
+
+                Maze.Instance!.Tiles[between.X, between.Y] = true;
+                Maze.Instance!.Tiles[next.X, next.Y] = true;
+                Maze.Instance!.TilesCreated++;
 
                 Maze.Instance!.Print();
             }
@@ -35,7 +40,9 @@ namespace MazeGenerator
 
                 foreach (var neighbor in neighbors)
                 {
-                    if (!Maze.Instance!.Tiles.Contains(neighbor) && (neighbor >= PointI.Zero) && (neighbor < Maze.Instance!.Size))
+                    if ((neighbor > PointI.Zero) 
+                     && (neighbor < Maze.Instance!.TotalSize)
+                     && !Maze.Instance!.Tiles[neighbor.X, neighbor.Y])
                     {
                         available.Add(neighbor);
                     }
@@ -55,10 +62,10 @@ namespace MazeGenerator
                 {
                     return
                     [
-                        new PointI(point.X - 1, point.Y),
-                        new PointI(point.X + 1, point.Y),
-                        new PointI(point.X, point.Y - 1),
-                        new PointI(point.X, point.Y + 1)
+                        new PointI(point.X - 2, point.Y),
+                        new PointI(point.X + 2, point.Y),
+                        new PointI(point.X, point.Y - 2),
+                        new PointI(point.X, point.Y + 2)
                     ];
                 }
             }
@@ -66,7 +73,7 @@ namespace MazeGenerator
 
         public void CreateSubPaths()
         {
-            while ((Maze.Instance!.Tiles.Count < Maze.Instance!.Size.Product) && (_index < Tiles.Count))
+            while ((Maze.Instance!.TilesCreated < Maze.Instance!.Size.Product) && (_index < Tiles.Count))
             {
                 SubPaths.Add(new Path(Tiles[_index++]));
             }

@@ -8,17 +8,17 @@ namespace MazeGenerator
     {
         public static Maze? Instance { get; private set; }
 
-        public List<PointI> Tiles { get; }
+        public bool[,] Tiles { get; }
 
         public PointI Size { get; }
 
-        public int Width => Size.X;
-
-        public int Height => Size.Y;
+        internal PointI TotalSize => Size * 2 + 1;
 
         public PointI Start { get; }
 
         public PointI End { get; }
+
+        internal int TilesCreated { get; set; }
 
         /// <summary>
         /// Initialize a <see cref="Maze"/> given a size.
@@ -26,18 +26,21 @@ namespace MazeGenerator
         /// <param name="size"> The size of the <see cref="Maze"/>, each component of the <see cref="PointI"/> gets clamped in range [2, 100]. </param>
         public Maze(PointI size)
         {
-            var stopwatch = new Stopwatch();
-
             Instance = this;
 
             Size = PointI.Clamp(size, 2, 100);
-            Start = Random.PointI(0, Width, 0, Height);
+            Start = Random.PointI(0, Size.X, 0, Size.Y) * 2 + 1;
+
+            var stopwatch = new Stopwatch();
 
             Path? path;
             do
             {
-                Tiles = [];
+                Tiles = new bool[TotalSize.X, TotalSize.Y];
+                TilesCreated = 0;
+
                 path = new Path(Start);
+
             } while (path.Length < Size.Length);
 
             End = path.Tiles.Last();
@@ -46,7 +49,7 @@ namespace MazeGenerator
 
             var subPaths = path.SubPaths;
 
-            while (Tiles.Count < Size.Product)
+            while (TilesCreated < Size.Product)
             {
                 var copy = subPaths.ToArray();
                 subPaths.Clear();
@@ -71,27 +74,23 @@ namespace MazeGenerator
         {
             string result = "";
 
-            for (int y = 0; y < Height; y++)
+            for (int y = 0; y < TotalSize.Y; y++)
             {
-                for (int x = 0; x < Width; x++)
+                for (int x = 0; x < TotalSize.X; x++)
                 {
-
                     var pos = new PointI(x, y);
 
-                    if (Tiles.Contains(pos))
+                    if (pos == Start)
                     {
-                        if (pos == Start)
-                        {
-                            result += 'O';
-                        }
-                        else if (pos == End)
-                        {
-                            result += 'X';
-                        }
-                        else
-                        {
-                            result += ' ';
-                        }
+                        result += 'O';
+                    }
+                    else if (pos == End)
+                    {
+                        result += 'X';
+                    }
+                    else if (Tiles[x, y])
+                    {
+                        result += ' ';
                     }
                     else
                     {
