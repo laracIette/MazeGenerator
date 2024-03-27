@@ -3,18 +3,26 @@ using Random = Kotono.Utils.Random;
 
 namespace MazeGenerator
 {
-    public class Path
+    internal class Path
     {
         private int _index = 0;
 
-        public List<PointI> Tiles { get; }
+        internal List<PointI> Tiles { get; }
 
-        public List<Path> SubPaths { get; } = [];
+        internal List<Path> SubPaths { get; } = [];
 
-        public int Length => Tiles.Count;
+        internal int Length => Tiles.Count;
 
-        public Path(PointI start)
+        internal static int Number { get; set; } = 0;
+
+        private readonly Maze _maze;
+
+        internal Path(PointI start, Maze maze)
         {
+            Number++;
+
+            _maze = maze;
+
             Tiles = [start];
 
             while (CanMove(Tiles.Last(), out PointI next))
@@ -23,16 +31,16 @@ namespace MazeGenerator
 
                 Tiles.Add(next);
 
-                Maze.Instance!.Tiles[between.X, between.Y] = true;
-                Maze.Instance!.Tiles[next.X, next.Y] = true;
-                Maze.Instance!.TilesCreated++;
+                _maze.Tiles[between.X, between.Y] = true;
+                _maze.Tiles[next.X, next.Y] = true;
+                _maze.TilesCreated++;
 
-                //Maze.Instance!.Print();
+                //_maze.Print();
             }
 
 
 
-            static bool CanMove(in PointI current, out PointI next)
+            bool CanMove(in PointI current, out PointI next)
             {
                 var neighbors = GetNeighbors(current);
 
@@ -41,8 +49,8 @@ namespace MazeGenerator
                 foreach (var neighbor in neighbors)
                 {
                     if ((neighbor > PointI.Zero)
-                     && (neighbor < Maze.Instance!.TotalSize)
-                     && !Maze.Instance!.Tiles[neighbor.X, neighbor.Y])
+                     && (neighbor < _maze.TotalSize)
+                     && !_maze.Tiles[neighbor.X, neighbor.Y])
                     {
                         available.Add(neighbor);
                     }
@@ -71,11 +79,11 @@ namespace MazeGenerator
             }
         }
 
-        public void CreateSubPaths()
+        internal void CreateSubPaths()
         {
-            while ((Maze.Instance!.TilesCreated < Maze.Instance!.Size.Product) && (_index < Tiles.Count))
+            while ((_maze.TilesCreated < _maze.Size.Product) && (_index < Tiles.Count))
             {
-                SubPaths.Add(new Path(Tiles[_index++]));
+                SubPaths.Add(new Path(Tiles[_index++], _maze));
             }
         }
     }
