@@ -60,7 +60,8 @@ namespace MazeGenerator
                 }
             }
 
-            Console.WriteLine($"Elapsed Time : {stopwatch.ElapsedTime} seconds.");
+            Console.WriteLine($"Elapsed Time : {stopwatch.ElapsedTime} seconds.\n");
+            Console.WriteLine(this);
         }
 
         public void Print()

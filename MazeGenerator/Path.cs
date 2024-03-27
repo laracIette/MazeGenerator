@@ -27,7 +27,7 @@ namespace MazeGenerator
                 Maze.Instance!.Tiles[next.X, next.Y] = true;
                 Maze.Instance!.TilesCreated++;
 
-                Maze.Instance!.Print();
+                //Maze.Instance!.Print();
             }
 
 
@@ -40,7 +40,7 @@ namespace MazeGenerator
 
                 foreach (var neighbor in neighbors)
                 {
-                    if ((neighbor > PointI.Zero) 
+                    if ((neighbor > PointI.Zero)
                      && (neighbor < Maze.Instance!.TotalSize)
                      && !Maze.Instance!.Tiles[neighbor.X, neighbor.Y])
                     {
