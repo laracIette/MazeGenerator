@@ -20,11 +20,13 @@ namespace MazeGenerator
 
         public PointI End { get; }
 
-
+        /// <summary>
+        /// Initialize a <see cref="Maze"/> given a size.
+        /// </summary>
+        /// <param name="size"> The size of the <see cref="Maze"/>, each component of the <see cref="PointI"/> gets clamped in range [2, 100]. </param>
         public Maze(PointI size)
         {
-            Time.Update();
-            float startTime = Time.Now;
+            var stopwatch = new Stopwatch();
 
             Instance = this;
 
@@ -55,10 +57,7 @@ namespace MazeGenerator
                 }
             }
 
-            Time.Update();
-            float elapsedTime = Time.Now - startTime;
-
-            Console.WriteLine($"Elapsed Time : {elapsedTime} seconds.");
+            Console.WriteLine($"Elapsed Time : {stopwatch.ElapsedTime} seconds.");
         }
 
         public void Print()
