@@ -1,4 +1,5 @@
-﻿using Kotono.Utils.Coordinates;
+﻿using Kotono.Utils;
+using Kotono.Utils.Coordinates;
 using Random = Kotono.Utils.Random;
 
 namespace MazeGenerator
@@ -22,6 +23,9 @@ namespace MazeGenerator
 
         public Maze(PointI size)
         {
+            Time.Update();
+            float startTime = Time.Now;
+
             Instance = this;
 
             Size = PointI.Clamp(size, 2, 100);
@@ -50,6 +54,11 @@ namespace MazeGenerator
                     subPaths.AddRange(subPath.SubPaths);
                 }
             }
+
+            Time.Update();
+            float elapsedTime = Time.Now - startTime;
+
+            Console.WriteLine($"Elapsed Time : {elapsedTime} seconds.");
         }
 
         public void Print()
@@ -67,6 +76,7 @@ namespace MazeGenerator
             {
                 for (int x = 0; x < Width; x++)
                 {
+
                     var pos = new PointI(x, y);
 
                     if (Tiles.Contains(pos))
