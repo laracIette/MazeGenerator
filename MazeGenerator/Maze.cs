@@ -1,5 +1,5 @@
-﻿using Kotono.Utils.Timing;
-using Kotono.Utils.Coordinates;
+﻿using Kotono.Utils.Coordinates;
+using Kotono.Utils.Timing;
 using Random = Kotono.Utils.Random;
 
 namespace MazeGenerator
@@ -65,7 +65,7 @@ namespace MazeGenerator
 
                 } while (path.Length < Size.Length);
 
-                End = path.Tiles.Last();
+                End = path.Tiles[path.Length];
 
             } while ((end != null) && (End != end));
 
@@ -84,19 +84,25 @@ namespace MazeGenerator
                 }
             }
 
-            Console.WriteLine($"Elapsed time : {stopwatch.ElapsedTime} seconds.");
-            Console.WriteLine($"Start : {(Start - 1) / 2}.");
-            Console.WriteLine($"End : {(End - 1) / 2}.");
-            Console.WriteLine($"Main path length : {path.Length}.");
-            Console.WriteLine($"Main path attempts : {attempts}.");
-            Console.WriteLine($"Paths : {Path.Number}.\n");
-            //Console.WriteLine(this);
+            double elapsedTime = stopwatch.ElapsedTime;
+
+            Console.Clear();
+            Console.WriteLine(
+                $"Elapsed time : {elapsedTime} seconds.\n" +
+                $"Start : {(Start - 1) / 2}.\n" +
+                $"End : {(End - 1) / 2}.\n" +
+                $"Main path length : {path.Length}.\n" +
+                $"Main path attempts : {attempts}.\n" +
+                $"Paths : {Path.Number}.\n"
+            );
+            Console.WriteLine(this);
         }
 
         public void Print()
         {
             Console.Clear();
             Console.WriteLine(this);
+
             Thread.Sleep(10);
         }
 

@@ -1,6 +1,4 @@
 ﻿using Kotono.Utils.Coordinates;
-using System.Drawing;
-using System.Runtime.CompilerServices;
 using Random = Kotono.Utils.Random;
 
 namespace MazeGenerator
