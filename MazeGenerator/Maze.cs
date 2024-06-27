@@ -1,4 +1,4 @@
-﻿using Kotono.Utils;
+﻿using Kotono.Utils.Timing;
 using Kotono.Utils.Coordinates;
 using Random = Kotono.Utils.Random;
 
@@ -10,7 +10,7 @@ namespace MazeGenerator
 
         public PointI Size { get; }
 
-        internal PointI TotalSize => Size * 2 + 1;
+        internal PointI TotalSize { get; }
 
         public PointI Start { get; }
 
@@ -25,6 +25,7 @@ namespace MazeGenerator
         public Maze(PointI size, PointI? start = null, PointI? end = null)
         {
             Size = PointI.Clamp(size, 2, 100);
+            TotalSize = 2 * Size + 1;
 
             // The end can't be the same position as the start.
             if (end == start)
@@ -34,16 +35,16 @@ namespace MazeGenerator
 
             if (start != null)
             {
-                Start = PointI.Clamp((PointI)start, PointI.Zero, Size - 1) * 2 + 1;
+                Start = 2 * PointI.Clamp((PointI)start, PointI.Zero, Size - 1) + 1;
             }
             else
             {
-                Start = Random.PointI(PointI.Zero, Size) * 2 + 1;
+                Start = 2 * Random.PointI(PointI.Zero, Size) + 1;
             }
 
             if (end != null)
             {
-                end = PointI.Clamp((PointI)end, PointI.Zero, Size - 1) * 2 + 1;
+                end = 2 * PointI.Clamp((PointI)end, PointI.Zero, Size - 1) + 1;
             }
 
             int attempts = 0;

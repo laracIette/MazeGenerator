@@ -1,21 +1,22 @@
 ﻿using Kotono.Utils.Coordinates;
+using System.Runtime.CompilerServices;
 using Random = Kotono.Utils.Random;
 
 namespace MazeGenerator
 {
     internal class Path
     {
-        private int _index = 0;
+        private readonly Maze _maze;
 
-        internal List<PointI> Tiles { get; }
+        private int _subPathTileIndex = 0;
+
+        internal PointI[] Tiles { get; }
 
         internal List<Path> SubPaths { get; } = [];
 
-        internal int Length => Tiles.Count;
+        internal int Length { get; } = 0;
 
         internal static int Number { get; set; } = 0;
-
-        private readonly Maze _maze;
 
         internal Path(PointI start, Maze maze)
         {
@@ -23,13 +24,15 @@ namespace MazeGenerator
 
             _maze = maze;
 
-            Tiles = [start];
+            Tiles = new PointI[maze.Size.Product];
+            Tiles[0] = start;
 
-            while (CanMove(Tiles.Last(), out PointI next))
+            while (CanMove(Tiles[Length], out PointI next))
             {
-                var between = next - (next - Tiles.Last()) / 2;
+                var between = next - (next - Tiles[Length]) / 2;
 
-                Tiles.Add(next);
+                Length++;
+                Tiles[Length] = next;
 
                 _maze.Tiles[between.X, between.Y] = true;
                 _maze.Tiles[next.X, next.Y] = true;
@@ -37,8 +40,6 @@ namespace MazeGenerator
 
                 //_maze.Print();
             }
-
-
 
             bool CanMove(in PointI current, out PointI next)
             {
@@ -65,7 +66,6 @@ namespace MazeGenerator
                 next = PointI.Zero;
                 return false;
 
-
                 static PointI[] GetNeighbors(in PointI point)
                 {
                     return
@@ -81,9 +81,9 @@ namespace MazeGenerator
 
         internal void CreateSubPaths()
         {
-            while ((_maze.TilesCreated < _maze.Size.Product) && (_index < Tiles.Count))
+            while ((_maze.TilesCreated < _maze.Size.Product) && (_subPathTileIndex < Length))
             {
-                SubPaths.Add(new Path(Tiles[_index++], _maze));
+                SubPaths.Add(new Path(Tiles[_subPathTileIndex++], _maze));
             }
         }
     }
