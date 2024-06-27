@@ -1,4 +1,5 @@
 ﻿using Kotono.Utils.Coordinates;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using Random = Kotono.Utils.Random;
 
@@ -43,39 +44,35 @@ namespace MazeGenerator
 
             bool CanMove(in PointI current, out PointI next)
             {
-                var neighbors = GetNeighbors(current);
+                var neighbors = new PointI[4]
+                {
+                    new(current.X - 2, current.Y),
+                    new(current.X + 2, current.Y),
+                    new(current.X, current.Y - 2),
+                    new(current.X, current.Y + 2)
+                };
 
-                var available = new List<PointI>();
+                var available = new PointI[4];
+                int availableNumber = 0;
 
                 foreach (var neighbor in neighbors)
                 {
-                    if ((neighbor > PointI.Zero)
-                     && (neighbor < _maze.TotalSize)
+                    if (neighbor > default(PointI)
+                     && neighbor < _maze.TotalSize
                      && !_maze.Tiles[neighbor.X, neighbor.Y])
                     {
-                        available.Add(neighbor);
+                        available[availableNumber++] = neighbor;
                     }
                 }
 
-                if (available.Count != 0)
+                if (availableNumber > 0)
                 {
-                    next = available[Random.Int(0, available.Count)];
+                    next = available[Random.Int(0, availableNumber)];
                     return true;
                 }
 
-                next = PointI.Zero;
+                next = default;
                 return false;
-
-                static PointI[] GetNeighbors(in PointI point)
-                {
-                    return
-                    [
-                        new PointI(point.X - 2, point.Y),
-                        new PointI(point.X + 2, point.Y),
-                        new PointI(point.X, point.Y - 2),
-                        new PointI(point.X, point.Y + 2)
-                    ];
-                }
             }
         }
 

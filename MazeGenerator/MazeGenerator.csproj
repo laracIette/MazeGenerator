@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Reference Include="Kotono">
-      <HintPath>..\..\Kotono\Kotono\bin\Debug\net8.0\Kotono.dll</HintPath>
+      <HintPath>..\..\Kotono\Kotono\bin\Release\net8.0\Kotono.dll</HintPath>
     </Reference>
   </ItemGroup>
 

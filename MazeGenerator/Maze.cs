@@ -90,7 +90,7 @@ namespace MazeGenerator
             Console.WriteLine($"Main path length : {path.Length}.");
             Console.WriteLine($"Main path attempts : {attempts}.");
             Console.WriteLine($"Paths : {Path.Number}.\n");
-            Console.WriteLine(this);
+            //Console.WriteLine(this);
         }
 
         public void Print()
