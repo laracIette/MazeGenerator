@@ -9,11 +9,11 @@ namespace MazeGenerator
 
         private int _subPathTileIndex = 0;
 
-        internal PointI[] Tiles { get; }
+        internal List<PointI> Tiles { get; }
 
         internal List<Path> SubPaths { get; } = [];
 
-        internal int Length { get; } = 0;
+        internal int Length => Tiles.Count;
 
         internal static int Number { get; set; } = 0;
 
@@ -23,15 +23,13 @@ namespace MazeGenerator
 
             _maze = maze;
 
-            Tiles = new PointI[maze.Size.Product];
-            Tiles[0] = start;
+            Tiles = [start];
 
-            while (CanMove(Tiles[Length], out PointI next))
+            while (CanMove(Tiles[^1], out PointI next))
             {
-                var between = next - (next - Tiles[Length]) / 2;
+                var between = next - (next - Tiles[^1]) / 2;
 
-                Length++;
-                Tiles[Length] = next;
+                Tiles.Add(next);
 
                 _maze.Tiles[between.X, between.Y] = true;
                 _maze.Tiles[next.X, next.Y] = true;

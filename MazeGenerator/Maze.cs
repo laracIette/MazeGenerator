@@ -1,6 +1,8 @@
 ﻿using Kotono.Utils.Coordinates;
 using Kotono.Utils.Timing;
+using System.Diagnostics;
 using Random = Kotono.Utils.Random;
+using Stopwatch = Kotono.Utils.Timing.Stopwatch;
 
 namespace MazeGenerator
 {
@@ -65,7 +67,7 @@ namespace MazeGenerator
 
                 } while (path.Length < Size.Length);
 
-                End = path.Tiles[path.Length];
+                End = path.Tiles[^1];
 
             } while ((end != null) && (End != end));
 
@@ -96,6 +98,8 @@ namespace MazeGenerator
                 $"Paths : {Path.Number}.\n"
             );
             Console.WriteLine(this);
+
+            Console.WriteLine(Process.GetCurrentProcess().WorkingSet64);
         }
 
         public void Print()
