@@ -67,7 +67,7 @@ namespace MazeGenerator
 
                 } while (path.Length < Size.Length);
 
-                End = path.Tiles[^1];
+                End = path.Last;
 
             } while ((end != null) && (End != end));
 
