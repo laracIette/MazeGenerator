@@ -1,24 +1,24 @@
-﻿using Kotono.Utils.Coordinates;
-using Kotono.Utils.Timing;
+﻿using MazeGenerator.Utils;
+using System.Collections;
 using System.Diagnostics;
-using Random = Kotono.Utils.Random;
-using Stopwatch = Kotono.Utils.Timing.Stopwatch;
+using Random = MazeGenerator.Utils.Random;
+using Stopwatch = MazeGenerator.Utils.Stopwatch;
 
 namespace MazeGenerator
 {
     public class Maze
     {
-        public bool[,] Tiles { get; }
+        public BitMatrix Tiles { get; }
 
         public PointI Size { get; }
 
-        internal PointI TotalSize { get; }
+        public PointI TotalSize { get; }
 
         public PointI Start { get; }
 
         public PointI End { get; }
 
-        internal int TilesCreated { get; set; }
+        public int TilesCreated { get; set; }
 
         /// <summary>
         /// Initialize a <see cref="Maze"/> given a size.
@@ -58,7 +58,7 @@ namespace MazeGenerator
             {
                 do
                 {
-                    Tiles = new bool[TotalSize.X, TotalSize.Y];
+                    Tiles = new BitMatrix(TotalSize);
                     TilesCreated = 0;
                     Path.Number = 0;
                     attempts++;

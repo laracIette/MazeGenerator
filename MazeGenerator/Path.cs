@@ -1,9 +1,9 @@
-﻿using Kotono.Utils.Coordinates;
-using Random = Kotono.Utils.Random;
+﻿using MazeGenerator.Utils;
+using Random = MazeGenerator.Utils.Random;
 
 namespace MazeGenerator
 {
-    internal class Path
+    public class Path
     {
         private readonly Maze _maze;
 
@@ -11,15 +11,15 @@ namespace MazeGenerator
 
         private readonly List<PointI> _tiles;
 
-        internal PointI Last => _tiles[^1];
+        public PointI Last => _tiles[^1];
 
-        internal int Length => _tiles.Count;
+        public int Length => _tiles.Count;
 
-        internal List<Path> SubPaths { get; } = [];
+        public List<Path> SubPaths { get; } = [];
 
-        internal static int Number { get; set; } = 0;
+        public static int Number { get; set; } = 0;
 
-        internal Path(PointI start, Maze maze)
+        public Path(PointI start, Maze maze)
         {
             Number++;
 
@@ -74,7 +74,7 @@ namespace MazeGenerator
             }
         }
 
-        internal void CreateSubPaths()
+        public void CreateSubPaths()
         {
             while ((_maze.TilesCreated < _maze.Size.Product) && (_subPathTileIndex < Length))
             {

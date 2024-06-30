@@ -7,10 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="Kotono">
-      <HintPath>..\..\Kotono\Kotono\bin\Release\net8.0\Kotono.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
