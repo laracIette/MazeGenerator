@@ -12,6 +12,6 @@ namespace MazeGenerator.Utils
             set => _bitArray[y * width + x] = value;
         }
 
-        public BitMatrix(PointI size) : this(size.X, size.Y) { }
+        public BitMatrix(Point size) : this(size.X, size.Y) { }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using MazeGenerator.Utils;
-using System.Collections;
 using System.Diagnostics;
 using Random = MazeGenerator.Utils.Random;
 using Stopwatch = MazeGenerator.Utils.Stopwatch;
@@ -10,23 +9,27 @@ namespace MazeGenerator
     {
         public BitMatrix Tiles { get; }
 
-        public PointI Size { get; }
+        public Point Size { get; }
 
-        public PointI TotalSize { get; }
+        public Point TotalSize { get; }
 
-        public PointI Start { get; }
+        public Point Start { get; }
 
-        public PointI End { get; }
+        public Point End { get; }
 
         public int TilesCreated { get; set; }
+
+        public double CreationTime { get; }
+
+        public long MemoryUsed { get; }
 
         /// <summary>
         /// Initialize a <see cref="Maze"/> given a size.
         /// </summary>
-        /// <param name="size"> The size of the <see cref="Maze"/>, each component of the <see cref="PointI"/> gets clamped in range [2, 100]. </param>
-        public Maze(PointI size, PointI? start = null, PointI? end = null)
+        /// <param name="size"> The size of the <see cref="Maze"/>, each component of the <see cref="Point"/> gets clamped in range [2, 100]. </param>
+        public Maze(Point size, Point? start = null, Point? end = null)
         {
-            Size = PointI.Clamp(size, 2, 100);
+            Size = Point.Clamp(size, 2, 100);
             TotalSize = 2 * Size + 1;
 
             // The end can't be the same position as the start.
@@ -37,16 +40,16 @@ namespace MazeGenerator
 
             if (start != null)
             {
-                Start = 2 * PointI.Clamp((PointI)start, PointI.Zero, Size - 1) + 1;
+                Start = 2 * Point.Clamp((Point)start, Point.Zero, Size - 1) + 1;
             }
             else
             {
-                Start = 2 * Random.PointI(PointI.Zero, Size) + 1;
+                Start = 2 * Random.PointI(Point.Zero, Size) + 1;
             }
 
             if (end != null)
             {
-                end = 2 * PointI.Clamp((PointI)end, PointI.Zero, Size - 1) + 1;
+                end = 2 * Point.Clamp((Point)end, Point.Zero, Size - 1) + 1;
             }
 
             int attempts = 0;
@@ -86,30 +89,30 @@ namespace MazeGenerator
                 }
             }
 
-            double elapsedTime = stopwatch.ElapsedTime;
-            long memoryUsed = Process.GetCurrentProcess().WorkingSet64;
+            CreationTime = stopwatch.ElapsedTime;
+            MemoryUsed = Process.GetCurrentProcess().WorkingSet64;
 
-            Console.Clear();
-            Console.WriteLine(
-                $"Elapsed time : {elapsedTime} seconds.\n" +
-                $"Start : {(Start - 1) / 2}.\n" +
-                $"End : {(End - 1) / 2}.\n" +
-                $"Main path length : {path.Length}.\n" +
-                $"Main path attempts : {attempts}.\n" +
-                $"Paths : {Path.Number}.\n" +
-                $"Memory Used : {memoryUsed / 8000000.0f} MB.\n"
-            );
-            Console.WriteLine(this);
+            //PrintStats();
 
-            Console.WriteLine();
+            void PrintStats()
+            {
+                Console.Clear();
+                Console.WriteLine(
+                    $"Elapsed time : {CreationTime} seconds.\n" +
+                    $"Start : {(Start - 1) / 2}.\n" +
+                    $"End : {(End - 1) / 2}.\n" +
+                    $"Main path length : {path.Length}.\n" +
+                    $"Main path attempts : {attempts}.\n" +
+                    $"Paths : {Path.Number}.\n" +
+                    $"Memory Used : {MemoryUsed / 8000000.0f} MB.\n"
+                );
+                Print();
+            }
         }
 
         public void Print()
         {
-            Console.Clear();
             Console.WriteLine(this);
-
-            Thread.Sleep(10);
         }
 
         public override string ToString()
@@ -120,7 +123,7 @@ namespace MazeGenerator
             {
                 for (int x = 0; x < TotalSize.X; x++)
                 {
-                    var pos = new PointI(x, y);
+                    var pos = new Point(x, y);
 
                     if (pos == Start)
                     {

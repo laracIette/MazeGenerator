@@ -9,9 +9,9 @@ namespace MazeGenerator
 
         private int _subPathTileIndex = 0;
 
-        private readonly List<PointI> _tiles;
+        private readonly List<Point> _tiles;
 
-        public PointI Last => _tiles[^1];
+        public Point Last => _tiles[^1];
 
         public int Length => _tiles.Count;
 
@@ -19,7 +19,7 @@ namespace MazeGenerator
 
         public static int Number { get; set; } = 0;
 
-        public Path(PointI start, Maze maze)
+        public Path(Point start, Maze maze)
         {
             Number++;
 
@@ -27,7 +27,7 @@ namespace MazeGenerator
 
             _tiles = [start];
 
-            while (CanMove(_tiles[^1], out PointI next))
+            while (CanMove(_tiles[^1], out Point next))
             {
                 var between = next - (next - _tiles[^1]) / 2;
 
@@ -37,12 +37,12 @@ namespace MazeGenerator
                 _maze.Tiles[next.X, next.Y] = true;
                 _maze.TilesCreated++;
 
-                //_maze.Print();
+                //PrintStep();
             }
 
-            bool CanMove(in PointI current, out PointI next)
+            bool CanMove(in Point current, out Point next)
             {
-                var neighbors = new PointI[4]
+                var neighbors = new Point[4]
                 {
                     new(current.X - 2, current.Y),
                     new(current.X + 2, current.Y),
@@ -50,12 +50,12 @@ namespace MazeGenerator
                     new(current.X, current.Y + 2)
                 };
 
-                var available = new PointI[4];
+                var available = new Point[4];
                 int availableNumber = 0;
 
                 foreach (var neighbor in neighbors)
                 {
-                    if (neighbor > default(PointI)
+                    if (neighbor > default(Point)
                      && neighbor < _maze.TotalSize
                      && !_maze.Tiles[neighbor.X, neighbor.Y])
                     {
@@ -71,6 +71,13 @@ namespace MazeGenerator
 
                 next = default;
                 return false;
+            }
+
+            void PrintStep()
+            {
+                Console.Clear();
+                _maze.Print();
+                Thread.Sleep(10);
             }
         }
 
