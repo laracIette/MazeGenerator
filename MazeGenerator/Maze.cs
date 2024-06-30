@@ -87,6 +87,7 @@ namespace MazeGenerator
             }
 
             double elapsedTime = stopwatch.ElapsedTime;
+            long memoryUsed = Process.GetCurrentProcess().WorkingSet64;
 
             Console.Clear();
             Console.WriteLine(
@@ -95,11 +96,12 @@ namespace MazeGenerator
                 $"End : {(End - 1) / 2}.\n" +
                 $"Main path length : {path.Length}.\n" +
                 $"Main path attempts : {attempts}.\n" +
-                $"Paths : {Path.Number}.\n"
+                $"Paths : {Path.Number}.\n" +
+                $"Memory Used : {memoryUsed / 8000000.0f} MB.\n"
             );
             Console.WriteLine(this);
 
-            Console.WriteLine(Process.GetCurrentProcess().WorkingSet64);
+            Console.WriteLine();
         }
 
         public void Print()
