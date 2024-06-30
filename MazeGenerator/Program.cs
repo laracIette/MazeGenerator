@@ -1,14 +1,14 @@
-﻿using Kotono.Utils.Coordinates;
+﻿using MazeGenerator.Utils;
 
 namespace MazeGenerator
 {
-    internal static class Program
+    public static class Program
     {
-        internal static void Main()
+        public static void Main()
         {
-            //_ = new Maze(new PointI(32, 18), new PointI(0, 0), new PointI(31, 17));
-            //_ = new Maze(new PointI(32, 18));
-            _ = new Maze(new PointI(100, 100));
+            //_ = new Maze(new Point(32, 18), new Point(0, 0), new Point(31, 17));
+            _ = new Maze(new Point(32, 18));
+            //_ = new Maze(new Point(100, 100));
         }
     }
 }

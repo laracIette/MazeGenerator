@@ -1,25 +1,25 @@
-﻿using Kotono.Utils.Coordinates;
-using Random = Kotono.Utils.Random;
+﻿using MazeGenerator.Utils;
+using Random = MazeGenerator.Utils.Random;
 
 namespace MazeGenerator
 {
-    internal class Path
+    public class Path
     {
         private readonly Maze _maze;
 
         private int _subPathTileIndex = 0;
 
-        private readonly List<PointI> _tiles;
+        private readonly List<Point> _tiles;
 
-        internal PointI Last => _tiles[^1];
+        public Point Last => _tiles[^1];
 
-        internal int Length => _tiles.Count;
+        public int Length => _tiles.Count;
 
-        internal List<Path> SubPaths { get; } = [];
+        public List<Path> SubPaths { get; } = [];
 
-        internal static int Number { get; set; } = 0;
+        public static int Number { get; set; } = 0;
 
-        internal Path(PointI start, Maze maze)
+        public Path(Point start, Maze maze)
         {
             Number++;
 
@@ -27,7 +27,7 @@ namespace MazeGenerator
 
             _tiles = [start];
 
-            while (CanMove(_tiles[^1], out PointI next))
+            while (CanMove(_tiles[^1], out Point next))
             {
                 var between = next - (next - _tiles[^1]) / 2;
 
@@ -37,12 +37,12 @@ namespace MazeGenerator
                 _maze.Tiles[next.X, next.Y] = true;
                 _maze.TilesCreated++;
 
-                //_maze.Print();
+                //PrintStep();
             }
 
-            bool CanMove(in PointI current, out PointI next)
+            bool CanMove(in Point current, out Point next)
             {
-                var neighbors = new PointI[4]
+                var neighbors = new Point[4]
                 {
                     new(current.X - 2, current.Y),
                     new(current.X + 2, current.Y),
@@ -50,12 +50,12 @@ namespace MazeGenerator
                     new(current.X, current.Y + 2)
                 };
 
-                var available = new PointI[4];
+                var available = new Point[4];
                 int availableNumber = 0;
 
                 foreach (var neighbor in neighbors)
                 {
-                    if (neighbor > default(PointI)
+                    if (neighbor > default(Point)
                      && neighbor < _maze.TotalSize
                      && !_maze.Tiles[neighbor.X, neighbor.Y])
                     {
@@ -72,9 +72,16 @@ namespace MazeGenerator
                 next = default;
                 return false;
             }
+
+            void PrintStep()
+            {
+                Console.Clear();
+                _maze.Print();
+                Thread.Sleep(10);
+            }
         }
 
-        internal void CreateSubPaths()
+        public void CreateSubPaths()
         {
             while ((_maze.TilesCreated < _maze.Size.Product) && (_subPathTileIndex < Length))
             {
