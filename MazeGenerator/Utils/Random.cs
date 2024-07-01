@@ -4,13 +4,15 @@ namespace MazeGenerator.Utils
 {
     public static class Random
     {
+        private static readonly System.Random _random = new();
+
         /// <summary>
         /// Get an int in range [min, max).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Int(int min, int max)
         {
-            return System.Random.Shared.Next(min, max);
+            return _random.Next(min, max);
         }
 
         /// <summary>

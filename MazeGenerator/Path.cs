@@ -1,4 +1,7 @@
 ﻿using MazeGenerator.Utils;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using Random = MazeGenerator.Utils.Random;
 
 namespace MazeGenerator
@@ -9,13 +12,13 @@ namespace MazeGenerator
 
         private int _subPathTileIndex = 0;
 
-        private readonly List<Point> _tiles;
+        private readonly List<Point> _tiles = new();
 
         public Point Last => _tiles[^1];
 
         public int Length => _tiles.Count;
 
-        public List<Path> SubPaths { get; } = [];
+        public List<Path> SubPaths { get; } = new();
 
         public static int Number { get; set; } = 0;
 
@@ -25,7 +28,7 @@ namespace MazeGenerator
 
             _maze = maze;
 
-            _tiles = [start];
+            _tiles.Add(start);
 
             while (CanMove(_tiles[^1], out Point next))
             {

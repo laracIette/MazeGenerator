@@ -1,4 +1,6 @@
-﻿namespace MazeGenerator.Utils
+﻿using System;
+
+namespace MazeGenerator.Utils
 {
     public static class Time
     {

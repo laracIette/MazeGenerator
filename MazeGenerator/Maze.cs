@@ -1,4 +1,5 @@
 ﻿using MazeGenerator.Utils;
+using System;
 using System.Diagnostics;
 using Random = MazeGenerator.Utils.Random;
 using Stopwatch = MazeGenerator.Utils.Stopwatch;

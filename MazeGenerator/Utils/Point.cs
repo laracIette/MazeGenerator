@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System;
 
 namespace MazeGenerator.Utils
 {
@@ -8,17 +9,17 @@ namespace MazeGenerator.Utils
         /// <summary> 
         /// The X component of the PointI. 
         /// </summary>
-        public int X = 0;
+        public int X;
 
         /// <summary>
         /// The Y component of the PointI. 
         /// </summary>
-        public int Y = 0;
+        public int Y;
 
         /// <summary> 
         /// The length component of the PointI. 
         /// </summary>
-        public readonly float Length => float.Sqrt(X * X + Y * Y);
+        public readonly float Length => MathF.Sqrt(X * X + Y * Y);
 
         /// <summary>
         /// The X * Y product of the PointI.
@@ -26,12 +27,6 @@ namespace MazeGenerator.Utils
         public readonly int Product => X * Y;
 
         public static Point Zero => new(0, 0);
-
-        public Point()
-        {
-            X = 0;
-            Y = 0;
-        }
 
         public Point(Point p)
         {
