@@ -1,5 +1,6 @@
 ﻿using MazeGenerator.Utils;
 using System.Diagnostics;
+using System.IO;
 using Random = MazeGenerator.Utils.Random;
 using Stopwatch = MazeGenerator.Utils.Stopwatch;
 
@@ -22,6 +23,8 @@ namespace MazeGenerator
         public double CreationTime { get; }
 
         public long MemoryUsed { get; }
+
+        public Path MainPath { get; }
 
         /// <summary>
         /// Initialize a <see cref="Maze"/> given a size.
@@ -52,8 +55,6 @@ namespace MazeGenerator
                 end = 2 * Point.Clamp((Point)end, Point.Zero, Size - 1) + 1;
             }
 
-            int attempts = 0;
-
             var stopwatch = new Stopwatch();
 
             Path? path;
@@ -64,7 +65,6 @@ namespace MazeGenerator
                     Tiles = new BitMatrix(TotalSize);
                     TilesCreated = 0;
                     Path.Number = 0;
-                    attempts++;
 
                     path = new Path(Start, this);
 
@@ -91,28 +91,25 @@ namespace MazeGenerator
 
             CreationTime = stopwatch.ElapsedTime;
             MemoryUsed = Process.GetCurrentProcess().WorkingSet64;
-
-            //PrintStats();
-
-            void PrintStats()
-            {
-                Console.Clear();
-                Console.WriteLine(
-                    $"Elapsed time : {CreationTime} seconds.\n" +
-                    $"Start : {(Start - 1) / 2}.\n" +
-                    $"End : {(End - 1) / 2}.\n" +
-                    $"Main path length : {path.Length}.\n" +
-                    $"Main path attempts : {attempts}.\n" +
-                    $"Paths : {Path.Number}.\n" +
-                    $"Memory Used : {MemoryUsed / 8000000.0f} MB.\n"
-                );
-                Print();
-            }
+            MainPath = path;
         }
 
         public void Print()
         {
             Console.WriteLine(this);
+        }
+
+        public void PrintStats()
+        {
+            Console.Clear();
+            Console.WriteLine(
+                $"Elapsed time : {CreationTime} seconds.\n" +
+                $"Start : {(Start - 1) / 2}.\n" +
+                $"End : {(End - 1) / 2}.\n" +
+                $"Main path length : {MainPath.Length}.\n" +
+                $"Paths : {Path.Number}.\n" +
+                $"Memory Used : {MemoryUsed / 8000000.0f} MB.\n"
+            );
         }
 
         public override string ToString()
