@@ -104,6 +104,7 @@ namespace MazeGenerator
             Console.Clear();
             Console.WriteLine(
                 $"Elapsed time : {CreationTime} seconds.\n" +
+                $"Size : {Size}.\n" +
                 $"Start : {(Start - 1) / 2}.\n" +
                 $"End : {(End - 1) / 2}.\n" +
                 $"Main path length : {MainPath.Length}.\n" +
