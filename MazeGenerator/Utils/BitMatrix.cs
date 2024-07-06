@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace MazeGenerator.Utils
 {
@@ -8,7 +9,9 @@ namespace MazeGenerator.Utils
 
         public bool this[int x, int y]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => _bitArray[y * width + x];
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => _bitArray[y * width + x] = value;
         }
 
