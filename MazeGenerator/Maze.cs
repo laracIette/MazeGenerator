@@ -47,7 +47,7 @@ namespace MazeGenerator
             }
             else
             {
-                Start = 2 * Random.PointI(Point.Zero, Size) + 1;
+                Start = 2 * Random.Point(Point.Zero, Size) + 1;
             }
 
             if (end != null)

@@ -42,7 +42,7 @@ namespace MazeGenerator
 
             bool CanMove(in Point current, out Point next)
             {
-                var neighbors = new Point[4]
+                Span<Point> neighbors = stackalloc Point[4]
                 {
                     new(current.X - 2, current.Y),
                     new(current.X + 2, current.Y),
@@ -50,7 +50,7 @@ namespace MazeGenerator
                     new(current.X, current.Y + 2)
                 };
 
-                var available = new Point[4];
+                Span<Point> available = stackalloc Point[4];
                 int availableNumber = 0;
 
                 foreach (var neighbor in neighbors)
@@ -83,7 +83,8 @@ namespace MazeGenerator
 
         public void CreateSubPaths()
         {
-            while ((_maze.TilesCreated < _maze.Size.Product) && (_subPathTileIndex < Length))
+            while (_maze.TilesCreated < _maze.Size.Product
+                && _subPathTileIndex < Length)
             {
                 SubPaths.Add(new Path(_tiles[_subPathTileIndex++], _maze));
             }

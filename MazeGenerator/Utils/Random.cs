@@ -17,7 +17,7 @@ namespace MazeGenerator.Utils
         /// Get a Point in range [min, max).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Point PointI(Point min, Point max)
+        public static Point Point(Point min, Point max)
         {
             return new Point(
                 Int(min.X, max.X),
