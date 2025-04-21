@@ -146,12 +146,14 @@ namespace MazeGenerator.Utils
 
         public static bool operator ==(Point left, Point right)
         {
-            return left.Equals(right);
+            return left.X == right.X
+                && left.Y == right.Y;
         }
 
         public static bool operator !=(Point left, Point right)
         {
-            return !(left == right);
+            return left.X != right.X
+                || left.Y != right.Y;
         }
 
         public override readonly bool Equals(object? obj)

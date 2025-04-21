@@ -75,8 +75,9 @@ namespace MazeGenerator
 
             void PrintStep()
             {
-                Console.Clear();
-                _maze.Print();
+                string mazeString = _maze.ToString();
+                //Console.Clear();
+                Console.WriteLine(mazeString);
                 Thread.Sleep(10);
             }
         }

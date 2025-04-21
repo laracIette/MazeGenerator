@@ -8,7 +8,7 @@ namespace MazeGenerator
         {
             double averageCreationTime = 0.0;
 
-            const int N = 100;
+            const int N = 1;
             for (int i = 0; i < N; i++)
             {
                 var maze = new Maze(new Point(100, 100));
@@ -16,10 +16,10 @@ namespace MazeGenerator
                 Console.WriteLine(maze.CreationTime);
                 averageCreationTime += maze.CreationTime;
 
-                //maze.PrintStats();
-                //maze.Print();
+                maze.PrintStats();
+                maze.Print();
             }
-            Console.WriteLine($"Average: {averageCreationTime / N}");
+            //Console.WriteLine($"Average: {averageCreationTime / N}");
         }
     }
 }

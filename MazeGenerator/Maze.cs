@@ -1,6 +1,7 @@
 ﻿using MazeGenerator.Utils;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using Random = MazeGenerator.Utils.Random;
 using Stopwatch = MazeGenerator.Utils.Stopwatch;
 
@@ -115,7 +116,7 @@ namespace MazeGenerator
 
         public override string ToString()
         {
-            string result = "";
+            var result = new StringBuilder();
 
             for (int y = 0; y < TotalSize.Y; y++)
             {
@@ -125,28 +126,28 @@ namespace MazeGenerator
 
                     if (pos == Start)
                     {
-                        result += 'O';
+                        result.Append('O');
                     }
                     else if (pos == End)
                     {
-                        result += 'X';
+                        result.Append('X');
                     }
                     else if (Tiles[x, y])
                     {
-                        result += ' ';
+                        result.Append(' ');
                     }
                     else
                     {
-                        result += '#';
+                        result.Append('#');
                     }
 
-                    result += ' ';
+                    result.Append(' ');
                 }
 
-                result += '\n';
+                result.Append('\n');
             }
 
-            return result;
+            return result.ToString();
         }
     }
 }
